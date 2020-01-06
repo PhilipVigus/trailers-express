@@ -1,6 +1,7 @@
 'use strict';
 
 const fileSystem = require("fs");
+const TrailerModel = require("../models/trailer");
 
 processFile("test-data.txt");
 
@@ -26,27 +27,37 @@ function parseData(data) {
 
     filmChunks.forEach(function(filmChunk) {
 
-        let film = {};
+        let trailerDetails = {
+            title: filmChunk.match(/<title>[\s\S]*?<\/title>/)[0].slice(7, -8),
+            guid: filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2),
+            imageURL: filmChunk.match(/<img[\s\S]*?>/)[0].slice(10, -4),
+            articleDate: filmChunk.match(/Received.*/)[0].slice(24, -6),
+            trailerLink: filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2),
+            tags: filmChunk.match(/Tags[\s\S]*?<\/body>/)[0].replace(/<.*?>/g, "").slice(6, -4),
+            notes: ""
+        };
+
+        let trailer = new TrailerModel(trailerDetails);
 
         // parse the title, removing the two tags with slice
-        film.title = filmChunk.match(/<title>[\s\S]*?<\/title>/)[0].slice(7, -8);
+        //film.title = filmChunk.match(/<title>[\s\S]*?<\/title>/)[0].slice(7, -8);
 
         // parse the guid
-        film.guid = filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2);
+        //film.guid = filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2);
 
         // parse the image
-        film.image = filmChunk.match(/<img[\s\S]*?>/)[0].slice(10, -4);
+        //film.image = filmChunk.match(/<img[\s\S]*?>/)[0].slice(10, -4);
 
         // parse the date
-        film.articleDate = filmChunk.match(/Received.*/)[0].slice(24, -6);
+        //film.articleDate = filmChunk.match(/Received.*/)[0].slice(24, -6);
 
         // parse the trailer link
-        film.trailerLink = filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2);
+        //film.trailerLink = filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2);
 
         // parse the tags
-        film.tags = filmChunk.match(/Tags[\s\S]*?<\/body>/)[0].replace(/<.*?>/g, "").slice(6, -4);
+        //film.tags = filmChunk.match(/Tags[\s\S]*?<\/body>/)[0].replace(/<.*?>/g, "").slice(6, -4);
 
-        films.push(film);
+        films.push(trailer);
     })
 
     console.log(films);
