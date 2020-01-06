@@ -5,11 +5,19 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+const mongoDBConnectionString = "mongodb+srv://PortfolioAdmin:kj43Pipkj43@portfolio-databases-ndtpo.mongodb.net/trailers?retryWrites=true&w=majority";
+
+mongoose.connect(mongoDBConnectionString, { useNewUrlParser: true });
+const dbConnection = mongoose.connection;
+
+// bind to the error event, so that errors get printed to console
+dbConnection.on("error", console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
