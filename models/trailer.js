@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const he = require('he');
 const Schema = mongoose.Schema;
 
 const TrailerSchema = new Schema(
@@ -15,5 +16,22 @@ const TrailerSchema = new Schema(
         notes: { type: String, default: "" } 
     }
 );
+
+/**
+ * The following virtuals return decoded versions of their fields.
+ * The decoding happens when the fields are stored in the db in
+ * the first place. It uses the he npm module. 
+ */
+TrailerSchema.virtual('titleUnencoded').get(function() {
+    return he.decode(this.title);
+});
+
+TrailerSchema.virtual('tagsUnencoded').get(function() {
+    return he.decode(this.tags);
+});
+
+TrailerSchema.virtual('notesUnencoded').get(function() {
+    return he.decode(this.notes);
+});
 
 module.exports = mongoose.model("Trailer", TrailerSchema);
