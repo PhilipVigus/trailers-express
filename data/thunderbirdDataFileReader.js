@@ -51,7 +51,7 @@ function parseData(data) {
             imageURL: filmChunk.match(/<img[\s\S]*?>/)[0].slice(10, -4),
             articleDate: filmChunk.match(/Received.*/)[0].slice(24, -6),
             trailerLink: filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2),
-            tags: filmChunk.match(/Tags[\s\S]*?<\/body>/)[0].replace(/<.*?>/g, "").slice(6, -4)
+            tags: filmChunk.match(/Tags[\s\S]*?<\/body>/)[0].replace(/<.*?>/g, "").slice(6, -3)
         };
 
         let trailer = new TrailerModel(trailerDetails);
