@@ -1,8 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.main-header {
+}
+
+.main-title {
+  text-align: center;
+}
+
+.page-nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.trailer-container {
+  display: flex;
+  margin: 10px 0px;
+  background-color: burlywood;
+}
+
+.trailer-image {
+  width: 300px;
+  display: block;
+}
+
+.trailer-text-container {
+  padding: 10px;
 }
