@@ -6,6 +6,14 @@ html(lang="en")
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    div.modal-overlay
+      div.modal-dialog
+        div.modal-content-container
+          div.trailer-to-rate Film Name
+          div.rating-control-container Stars
+          div.confirm-cancel-button-container
+            button Confirm
+            button Cancel
     header.main-header
       h1.main-title= title
       nav.page-nav
@@ -13,3 +21,4 @@ html(lang="en")
         span Shortlist
         span Admin
     block content
+    script(src="/javascripts/trailersToWatch.js")
