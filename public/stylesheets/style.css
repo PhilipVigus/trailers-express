@@ -35,5 +35,19 @@ a {
 }
 
 .trailer-text-container {
+  width: 100%;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.trailer-tags {
+  flex: 1 0;
+}
+
+.rate-button {
+  background-color: grey;
+  align-self: center;
+  padding: 10px 50px;
+  font-size: 1.5em;
 }
