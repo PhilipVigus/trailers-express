@@ -61,25 +61,6 @@ function parseData(data) {
             }
         });
 
-        // parse the title, removing the two tags with slice
-        //film.title = filmChunk.match(/<title>[\s\S]*?<\/title>/)[0].slice(7, -8);
-
-        // parse the guid
-        //film.guid = filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2);
-
-        // parse the image
-        //film.image = filmChunk.match(/<img[\s\S]*?>/)[0].slice(10, -4);
-
-        // parse the date
-        //film.articleDate = filmChunk.match(/Received.*/)[0].slice(24, -6);
-
-        // parse the trailer link
-        //film.trailerLink = filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2);
-
-        // parse the tags
-        //film.tags = filmChunk.match(/Tags[\s\S]*?<\/body>/)[0].replace(/<.*?>/g, "").slice(6, -4);
-
-        //films.push(trailer);
     })
 
     console.log(films);
