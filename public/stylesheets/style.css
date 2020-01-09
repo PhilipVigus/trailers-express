@@ -39,11 +39,19 @@ a {
 }
 
 .modal-dialog {
-  background-color: honeydew;
+  background-color: white;
 }
 
 .modal-content-container {
-  padding: 10px;
+  padding: 50px;
+}
+
+.rating-control-container {
+  text-align: center;
+}
+.star {
+  padding: 20px;
+  color: lightgrey;
 }
 
 .trailer-to-rate {
