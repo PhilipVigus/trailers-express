@@ -14,3 +14,7 @@ exports.trailerList = function (req, res) {
         }
     });
 };
+
+exports.rateTrailer = function (req, res) {
+    res.send("Oops, not yet implemented!");
+};
