@@ -10,4 +10,4 @@ block content
           div.trailer-title
             h2= trailer.titleUnencoded
           div.trailer-tags= trailer.tags
-          button.rate-button(onclick='showModalRatingDialog("' + trailer.titleUnencoded + '")') Rate Film
+          button.rate-button(onclick=`showModalRatingDialog("${trailer.titleUnencoded}")`) Rate Film
