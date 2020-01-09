@@ -43,7 +43,7 @@ a {
 }
 
 .modal-content-container {
-  padding: 50px;
+  padding: 15px;
 }
 
 .rating-control-container {
@@ -56,6 +56,19 @@ a {
 
 .star--lit {
   color: orange;
+}
+
+.confirm-cancel-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.dialog-button {
+  background: grey;
+  text-align: center;
+  flex-basis: 50%;
+  margin: 5px;
+  padding: 10px;
 }
 
 .trailer-to-rate {
