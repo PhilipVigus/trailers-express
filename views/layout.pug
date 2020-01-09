@@ -12,9 +12,9 @@ html(lang="en")
         div.modal-content-container
           div.trailer-to-rate Film Name
           div.rating-control-container
-            i.fas.fa-star.fa-6x.star
-            i.fas.fa-star.fa-6x.star
-            i.fas.fa-star.fa-6x.star
+            i#star-rating-1.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
+            i#star-rating-2.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
+            i#star-rating-3.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
           div.confirm-cancel-button-container
             button Confirm
             button Cancel
