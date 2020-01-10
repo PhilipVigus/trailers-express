@@ -16,5 +16,14 @@ exports.trailerList = function (req, res) {
 };
 
 exports.rateTrailer = function (req, res) {
-    res.send("Oops, not yet implemented!");
+    console.log("called PUT");
+    console.log(req.query.rating);
+    console.log(req.query.id);
+    Trailer.findById(req.query.id).exec(function (err, trailerFound) {
+        if (err) {
+            return next(err);
+        } else {
+            console.log(trailerFound.title);
+        }
+    });
 };
