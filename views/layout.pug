@@ -16,8 +16,8 @@ html(lang="en")
             i#star-rating-2.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
             i#star-rating-3.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
           div.confirm-cancel-button-container
-            span.dialog-button Confirm
-            span.dialog-button(onclick="toggleRatingDialogVisibility()") Cancel
+            span.dialog-button(onclick="sendRating()") Confirm
+            span.dialog-button(onclick="hideRatingDialog()") Cancel
     header.main-header
       h1.main-title= title
       nav.page-nav
