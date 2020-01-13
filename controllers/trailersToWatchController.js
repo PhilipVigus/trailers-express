@@ -9,7 +9,6 @@ exports.trailerList = function (req, res) {
         if (err) {
             return next(err);
         } else {
-            console.log(unescape(trailersFound[1].title));
             res.render("trailersToWatch", { title: "Trailers to Watch", trailers_found: trailersFound })
         }
     });
