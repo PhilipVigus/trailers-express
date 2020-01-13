@@ -21,8 +21,10 @@ html(lang="en")
     header.main-header
       h1.main-title= title
       nav.page-nav
-        span Trailers to Watch
-        span Shortlist
+        a(href="/trailers-to-watch")
+          span Trailers to Watch
+        a(href="/shortlist")
+          span Shortlist
         span Admin
     block content
     script(src="/javascripts/trailersToWatch.js")
