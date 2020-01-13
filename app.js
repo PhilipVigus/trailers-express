@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 
 const indexRouter = require("./routes/index");
 const trailersToWatchRouter = require("./routes/trailersToWatch");
+const shortlistRouter = require("./routes/shortlist");
 
 const app = express();
 const mongoDBConnectionString = "mongodb+srv://PortfolioAdmin:kj43Pipkj43@portfolio-databases-ndtpo.mongodb.net/trailers?retryWrites=true&w=majority";
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/trailers-to-watch', trailersToWatchRouter);
+app.use('/shortlist', shortlistRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
