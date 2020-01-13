@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    div.shortlist-container
+        each trailer in trailers_found
+            div.trailer-container
+                p= trailer.titleUnencoded
+                p= trailer.rating
+                p= trailer.notes
