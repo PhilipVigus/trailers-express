@@ -22,16 +22,21 @@ function hideRatingDialog() {
     // reset information ready for the next time the dialog is shown
     currentID = 0;
     currentRating = 0;
-    resetStars();
+    deselectAllStars();
+    clearNotes();
 }
 
 // 'deselect' each of the three stars
-function resetStars() {
+function deselectAllStars() {
     const starGroup = document.querySelectorAll(".star");
 
     for (let i = 0; i < 3; i++) {
         starGroup[i].classList.remove("star--lit");
     }
+}
+
+function clearNotes() {
+    document.querySelector(".notes").value = "";
 }
 
 /**
