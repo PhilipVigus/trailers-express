@@ -7,41 +7,41 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  .show-modal {
+}
+
+.show-modal {
     visibility: visible;
-  }
-  
-  .modal-dialog {
+}
+
+.modal-dialog {
     background-color: white;
-  }
-  
-  .modal-content-container {
+}
+
+.modal-content-container {
     padding: 15px;
-  }
-  
-  .rating-control-container {
+}
+
+.rating-control-container {
     text-align: center;
-  }
-  .star {
+}
+.star {
     padding: 20px;
     color: lightgrey;
-  }
-  
-  .star--lit {
+}
+
+.star--lit {
     color: orange;
-  }
-  
-  .confirm-cancel-button-container {
+}
+
+.confirm-cancel-button-container {
     display: flex;
     justify-content: center;
-  }
-  
-  .dialog-button {
+}
+
+.dialog-button {
     background: grey;
     text-align: center;
     flex-basis: 50%;
     margin: 5px;
     padding: 10px;
-  }
+}

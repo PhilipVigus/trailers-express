@@ -1,21 +1,17 @@
-
-  
-
-  
-  a {
+a {
     color: #00B7FF;
-  }
-  
-  .main-header {
-  }
-  
-  .main-title {
+}
+
+.main-header {
+}
+
+.main-title {
     text-align: center;
-  }
-  
-  .page-nav {
+}
+
+.page-nav {
     display: flex;
     justify-content: space-evenly;
-  }
+}
   
  
