@@ -104,3 +104,19 @@ a {
   padding: 10px 50px;
   font-size: 1.5em;
 }
+
+.shortlist-star {
+  padding: 0 5px;
+}
+
+.rating--gold {
+  color: gold;
+}
+
+.rating--silver {
+  color: silver;
+}
+
+.rating--bronze {
+  color: #CD7F32;
+}
