@@ -3,6 +3,8 @@ extends layout
 block content
     div.shortlist-container
         each trailer in trailers_found
+            div.shortlisted-film-container
+        //
             div.trailer-container
                 img.trailer-image(src=trailer.imageURL)
                 div.trailer-text-container

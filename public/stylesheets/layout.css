@@ -1,0 +1,21 @@
+
+  
+
+  
+  a {
+    color: #00B7FF;
+  }
+  
+  .main-header {
+  }
+  
+  .main-title {
+    text-align: center;
+  }
+  
+  .page-nav {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+ 

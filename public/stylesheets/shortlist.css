@@ -1,0 +1,15 @@
+.shortlist-star {
+    padding: 0 5px;
+  }
+  
+  .rating--gold {
+    color: gold;
+  }
+  
+  .rating--silver {
+    color: silver;
+  }
+  
+  .rating--bronze {
+    color: #CD7F32;
+  }
