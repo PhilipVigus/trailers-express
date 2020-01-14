@@ -13,3 +13,18 @@
 .rating--bronze {
     color: #CD7F32;
 }
+
+.shortlisted-film-container {
+    display: flex;
+    background: var(--background-main);
+    margin: 1px 0px;
+}
+
+.shortlisted-film-title {
+    flex: 1 0;
+}
+
+.shortlisted-trailer-rating {
+    font-size: 11px;
+    flex: 0 1 auto;
+}

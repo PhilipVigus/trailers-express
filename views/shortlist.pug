@@ -4,6 +4,21 @@ block content
     div.shortlist-container
         each trailer in trailers_found
             div.shortlisted-film-container
+                div.shortlisted-film-title
+                    h2= trailer.titleUnencoded
+                if (trailer.rating === 1)
+                    div.shortlisted-trailer-rating.rating--bronze
+                        i.fas.fa-star.fa-2x.shortlist-star
+                else if (trailer.rating === 2)
+                    div.shortlisted-trailer-rating.rating--silver
+                        i.fas.fa-star.fa-2x.shortlist-star
+                        i.fas.fa-star.fa-2x.shortlist-star
+                else
+                    div.shortlisted-trailer-rating.rating--gold
+                        i.fas.fa-star.fa-2x.shortlist-star
+                        i.fas.fa-star.fa-2x.shortlist-star
+                        i.fas.fa-star.fa-2x.shortlist-star
+
         //
             div.trailer-container
                 img.trailer-image(src=trailer.imageURL)
