@@ -52,4 +52,5 @@
 
 .notes {
     width: 100%;
+    resize: none;
 }
