@@ -15,6 +15,8 @@ html(lang="en")
             i#star-rating-1.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
             i#star-rating-2.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
             i#star-rating-3.fas.fa-star.fa-6x.star(onclick="handleStarClick(this)")
+          div.notes-container
+            textarea.notes(name="notes", cols="30", rows="5")
           div.confirm-cancel-button-container
             span.dialog-button(onclick="sendRating()") Confirm
             span.dialog-button(onclick="hideRatingDialog()") Cancel

@@ -45,3 +45,11 @@
     margin: 5px;
     padding: 10px;
 }
+
+.notes-container {
+    text-align: center;
+}
+
+.notes {
+    width: 100%;
+}
