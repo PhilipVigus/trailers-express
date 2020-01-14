@@ -15,9 +15,12 @@
 }
 
 .shortlisted-film-container {
+    margin: 1px 0px;
+}
+
+.main-information-container {
     display: flex;
     background: var(--background-main);
-    margin: 1px 0px;
 }
 
 .shortlisted-film-title {
@@ -27,4 +30,17 @@
 .shortlisted-trailer-rating {
     font-size: 11px;
     flex: 0 1 auto;
+}
+
+.other-information-container {
+    display: none;
+}
+
+.shortlist-image {
+    width: 200px;
+    display: block;
+}
+
+.show-other-information {
+    display: flex;
 }
