@@ -14,8 +14,9 @@ exports.trailerList = function (req, res) {
     });
 };
 
-exports.rateTrailer = function (req, res) {
-    console.log("called PUT");
+exports.shortlistFilm = function (req, res) {
+    console.log("called correctly " + req.params.id);
+/*     console.log("called PUT");
     console.log(req.query.rating);
     console.log(req.query.id);
     Trailer.findById(req.query.id).exec(function (err, trailerFound) {
@@ -24,5 +25,5 @@ exports.rateTrailer = function (req, res) {
         } else {
             console.log(trailerFound.title);
         }
-    });
+    }); */
 };

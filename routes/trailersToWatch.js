@@ -8,6 +8,6 @@ const router = express.Router();
 router.get('/', trailersToWatchController.trailerList);
 
 // PUT trailer rating to db
-router.put("/rate", trailersToWatchController.rateTrailer);
+router.put("/:id/shortlist-film", trailersToWatchController.shortlistFilm);
 
 module.exports = router;

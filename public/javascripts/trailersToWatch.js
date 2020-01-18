@@ -103,7 +103,7 @@ function handleStarClick(eventTarget) {
 function sendRating() {
     
     // call the server API, sending the trailer ID and rating chosen by the user
-    fetch(`/trailers-to-watch/rate?id=${currentID}&rating=${currentRating}`, { method: "PUT"});
-
-    hideRatingDialog();
+    //fetch(`/shortlist-film/rate?id=${currentID}&rating=${currentRating}`, { method: "PUT"});
+    fetch(`trailers-to-watch/${currentID}/shortlist-film`, { method: "PUT"});
+    //hideRatingDialog();
 }
