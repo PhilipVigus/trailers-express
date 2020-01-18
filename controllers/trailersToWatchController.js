@@ -15,7 +15,9 @@ exports.trailerList = function (req, res) {
 };
 
 exports.shortlistFilm = function (req, res) {
-    console.log("called correctly " + req.params.id);
+    console.log("Yay, you're interested in it " + req.params.id);
+    console.log("Rating " + req.body.rating);
+    console.log("Notes " + req.body.notes);
 /*     console.log("called PUT");
     console.log(req.query.rating);
     console.log(req.query.id);
@@ -26,4 +28,8 @@ exports.shortlistFilm = function (req, res) {
             console.log(trailerFound.title);
         }
     }); */
+};
+
+exports.flagFilmAsUninterested = function (req, res) {
+    console.log("Why are you not interested in " + req.params.id);
 };

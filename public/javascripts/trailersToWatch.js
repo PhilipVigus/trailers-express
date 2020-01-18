@@ -100,10 +100,26 @@ function handleStarClick(eventTarget) {
     }
 }
 
-function sendRating() {
+// called when the user clicks the confirm button on the trailers to watch rate trailer dialog
+async function handleConfirmClick() {
     
-    // call the server API, sending the trailer ID and rating chosen by the user
-    //fetch(`/shortlist-film/rate?id=${currentID}&rating=${currentRating}`, { method: "PUT"});
-    fetch(`trailers-to-watch/${currentID}/shortlist-film`, { method: "PUT"});
-    //hideRatingDialog();
+    if (currentRating === 0) {
+
+        // if the rating is 0 then we aren't interested in the fim at all
+        fetch(`trailers-to-watch/${currentID}/flag-as-uninterested`, { method: "PUT"});
+
+    } else {
+
+        let bodyData = { rating: currentRating, notes: document.querySelector(".notes").value };
+        
+        fetch(`trailers-to-watch/${currentID}/shortlist-film`, 
+            { 
+                method: "PUT", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData) 
+            }
+        );          
+    }
 }
