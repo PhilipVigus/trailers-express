@@ -26,23 +26,4 @@ block content
                         div.trailer-tags= trailer.tags
                         div.trailer-notes= trailer.notes
 
-        //
-            div.trailer-container
-                img.trailer-image(src=trailer.imageURL)
-                div.trailer-text-container
-                    div.trailer-title
-                        h2= trailer.titleUnencoded
-                    div.trailer-tags= trailer.tags
-                    div.trailer-notes= trailer.notes
-                    div.trailer-rating
-                        if (trailer.rating === 1)
-                            i.fas.fa-star.fa-2x.shortlist-star.star--lit
-                        else if (trailer.rating === 2)
-                            i.fas.fa-star.fa-2x.shortlist-star.star--lit
-                            i.fas.fa-star.fa-2x.shortlist-star.star--lit
-                        else
-                            i.fas.fa-star.fa-2x.shortlist-star.star--lit
-                            i.fas.fa-star.fa-2x.shortlist-star.star--lit
-                            i.fas.fa-star.fa-2x.shortlist-star.star--lit
-
 
