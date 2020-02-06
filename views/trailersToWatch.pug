@@ -3,7 +3,8 @@ extends layout
 block content
   div.trailers-to-watch-container
     each trailer in trailers_found
-      div.trailer-container
+      // id_ is prepended here because attribute values cannot start with a number
+      div.trailer-container(id=`id_${trailer.id}`)
         a(href=trailer.trailerLink target="_blank")
           img.trailer-image(src=trailer.imageURL)
         div.trailer-text-container

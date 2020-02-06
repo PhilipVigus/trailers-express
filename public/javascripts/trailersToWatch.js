@@ -110,7 +110,7 @@ async function handleConfirmClick() {
 
     } else {
 
-        let bodyData = { rating: currentRating, notes: document.querySelector(".notes").value };
+        const fetchRequestBodyData = { rating: currentRating, notes: document.querySelector(".notes").value };
         
         fetch(`trailers-to-watch/${currentID}/`, 
             { 
@@ -118,10 +118,17 @@ async function handleConfirmClick() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(bodyData) 
+                body: JSON.stringify(fetchRequestBodyData) 
             }
         );          
     }
 
+    /**
+     * Get the DOM element for the trailer div containing the trailer we're looking at and then 
+     * delete it from the page as we've shortlisted it by rating it 
+     */
+    const trailerElementToDelete = document.querySelector(`#id_${currentID}`);
+    trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
+    
     hideRatingDialog();
 }
