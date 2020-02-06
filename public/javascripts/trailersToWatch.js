@@ -106,15 +106,15 @@ async function handleConfirmClick() {
     if (currentRating === 0) {
 
         // if the rating is 0 then we aren't interested in the fim at all
-        fetch(`trailers-to-watch/${currentID}/flag-as-uninterested`, { method: "PUT"});
+        fetch(`trailers-to-watch/${currentID}`, { method: "DELETE"});
 
     } else {
 
         let bodyData = { rating: currentRating, notes: document.querySelector(".notes").value };
         
-        fetch(`trailers-to-watch/${currentID}/shortlist-film`, 
+        fetch(`trailers-to-watch/${currentID}/`, 
             { 
-                method: "PUT", 
+                method: "PATCH", 
                 headers: {
                     "Content-Type": "application/json"
                 },
