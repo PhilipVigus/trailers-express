@@ -1,5 +1,8 @@
 'use strict';
+
+// pulls in named variables from the .env file in the root directory
 require('dotenv').config()
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -13,8 +16,18 @@ const shortlistRouter = require("./routes/shortlist");
 
 const app = express();
 
-console.log(process.env.DB_PATH);
-mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true });
+/**
+ * Sets the path of the database we're using based on whether we're on the development machine
+ * or the Heroku production server. There's probably a better way to check this than looking
+ * at the USER environment variable, but I haven't found it yet
+ * 
+ * The portfolio database is intended to be accessed by anyone using the site from my github pages,
+ * so is set up to showcase the different aspects of the site. The personal database is for day-to-day use
+ * of the site by me
+ */
+let dbPath = process.env.USER == "phil" ? process.env.DB_PATH_PERSONAL : process.env.DB_PATH_PORTFOLIO
+
+mongoose.connect(dbPath, { useNewUrlParser: true });
 const dbConnection = mongoose.connection;
 
 // bind to the error event, so that errors get printed to console
@@ -46,7 +59,7 @@ function setupMiddleware() {
   }
   
   function setupErrorHandler() {
-    
+
     // catch 404 errors and forward to error handler
     app.use(function(req, res, next) {
       next(createError(404));
