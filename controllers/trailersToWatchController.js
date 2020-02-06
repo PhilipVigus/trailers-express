@@ -14,20 +14,17 @@ exports.trailerList = function (req, res) {
     });
 };
 
-exports.shortlistFilm = function (req, res) {
-    console.log("Yay, you're interested in it " + req.params.id);
-    console.log("Rating " + req.body.rating);
-    console.log("Notes " + req.body.notes);
-/*     console.log("called PUT");
-    console.log(req.query.rating);
-    console.log(req.query.id);
-    Trailer.findById(req.query.id).exec(function (err, trailerFound) {
+exports.shortlistFilm = async function (req, res) {
+    Trailer.findById(req.params.id).exec(function (err, trailerFound) {
         if (err) {
             return next(err);
         } else {
-            console.log(trailerFound.title);
+            console.log(`${trailerFound.title} is being updated...`);
+            trailerFound.rating = req.body.rating;
+            trailerFound.notes = req.body.notes;
+            trailerFound.save();
         }
-    }); */
+    });
 };
 
 exports.flagFilmAsUninterested = function (req, res) {
