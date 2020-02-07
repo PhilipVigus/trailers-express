@@ -14,7 +14,7 @@ exports.showTrailersToWatchPage = function (req, res) {
 };
 
 exports.shortlistFilm = async function (req, res) {
-    Trailer.findById(req.params.id).exec(function (err, trailerFound) {
+    Trailer.findById(req.params.id).sort({ articleDate: 'asc'}).exec(function (err, trailerFound) {
         if (err) {
             return next(err);
         } else {
