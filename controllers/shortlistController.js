@@ -27,3 +27,13 @@ exports.updateTrailer = async function (req, res) {
     });
 };
 
+exports.deleteTrailerAsFilmWatched = async function (req, res) {
+    Trailer.findByIdAndDelete(req.params.id).exec(function (err) {
+        if (err) {
+            return next(err);
+        } else {
+            console.log(`${req.params.id} is being deleted as the film has been watched...`);
+        }
+    });
+};
+

@@ -21,3 +21,18 @@ function undoTrailerRating(trailerID) {
     const trailerElementToDelete = document.querySelector(`#id_${trailerID}`);
     trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
 }
+
+function deleteTrailerAsFilmWatched(trailerID) {
+
+    fetch(`shortlist/${trailerID}/`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+    );
+
+    const trailerElementToDelete = document.querySelector(`#id_${trailerID}`);
+    trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
+}
