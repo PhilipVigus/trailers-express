@@ -20,7 +20,7 @@ const TrailerSchema = new Schema(
 /**
  * The following virtuals return decoded versions of their fields.
  * The decoding happens when the fields are stored in the db in
- * the first place. It uses the he npm module. 
+ * the first place, replacing unsafe characters with safe equivalents
  */
 TrailerSchema.virtual('titleUnencoded').get(function() {
     return he.decode(this.title);

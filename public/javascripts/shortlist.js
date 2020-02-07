@@ -1,10 +1,14 @@
 'use strict';
 
+/**
+ * Shows/Hides the div containing the extra information for a film that has
+ * been shortlisted. Triggered by clicking on a film in the shortlist
+ */
 function toggleOtherInfoVisibility(target) {
     target.nextSibling.classList.toggle("show-other-information");
 }
 
-function undoTrailerRating(trailerID) {
+function deleteTrailerRatingAndNotes(trailerID) {
 
     const fetchRequestBodyData = { rating: undefined, notes: "" };
         
@@ -18,8 +22,7 @@ function undoTrailerRating(trailerID) {
         }
     ); 
 
-    const trailerElementToDelete = document.querySelector(`#id_${trailerID}`);
-    trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
+    deleteTrailerElementFromPage(trailerID);
 }
 
 function deleteTrailerAsFilmWatched(trailerID) {
@@ -33,6 +36,10 @@ function deleteTrailerAsFilmWatched(trailerID) {
         }
     );
 
+    deleteTrailerElementFromPage(trailerID);
+}
+
+function deleteTrailerElementFromPage(trailerID) {
     const trailerElementToDelete = document.querySelector(`#id_${trailerID}`);
     trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
 }

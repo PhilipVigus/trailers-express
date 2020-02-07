@@ -25,7 +25,7 @@ block content
                     div.shortlisted-trailer-other-text
                         div.trailer-tags= trailer.tags
                         div.trailer-notes= trailer.notes
-                        button(onClick=`undoTrailerRating('${trailer.id}')`) Undo rating
+                        button(onClick=`deleteTrailerRatingAndNotes('${trailer.id}')`) Undo rating
                         button(onClick=`deleteTrailerAsFilmWatched('${trailer.id}')`) Watched
 
 

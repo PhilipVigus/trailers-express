@@ -7,128 +7,159 @@
 let currentRating = 0;
 let currentID = 0;
 
-// called when the user clicks one of the rate film buttons
+// called when a rate film button is clicked on the trailer list
 function showRatingDialog(filmTitle, trailerID) {
-    currentID = trailerID;
-    document.querySelector(".trailer-to-rate").textContent = filmTitle;
-    document.querySelector(".modal-overlay").classList.toggle("show-modal");
-}
+    setDialogData();
+    showDialogElement();
 
-function hideRatingDialog() {
+    function setDialogData() {
+        currentID = trailerID;
+        document.querySelector(".trailer-to-rate").textContent = filmTitle;
+    }
 
-    // hide the dialog
-    document.querySelector(".modal-overlay").classList.toggle("show-modal");
-    
-    // reset information ready for the next time the dialog is shown
-    currentID = 0;
-    currentRating = 0;
-    deselectAllStars();
-    clearNotes();
-}
-
-// 'deselect' each of the three stars
-function deselectAllStars() {
-    const starGroup = document.querySelectorAll(".star");
-
-    for (let i = 0; i < 3; i++) {
-        starGroup[i].classList.remove("star--lit");
+    function showDialogElement() {
+        document.querySelector(".modal-overlay").classList.toggle("show-modal");
     }
 }
 
-function clearNotes() {
-    document.querySelector(".notes").value = "";
-}
+// called when the onfirm or cancel dialog buttons are clicked
+function hideAndResetDialog() {
 
-/**
- * Contains the display logic for the different combinations the user can click the stars in.
- */
-function handleStarClick(eventTarget) {
+    hideDialogElement();
+    resetDialogData();
 
-    const starGroup = document.querySelectorAll(".star");
+    
+    function hideDialogElement() {
+        document.querySelector(".modal-overlay").classList.toggle("show-modal");
+    }
 
-    // check which star was clicked, and alter the star group's state depending on what it currently is
-    if (eventTarget.id === "star-rating-1") {
+    function resetDialogData() {
 
-        // the first star was clicked
+        resetCurrentTrailerInfo();
+        unlightAllStars();
+        clearNotes();
 
-        if (!starGroup[1].classList.contains("star--lit")) {
-            starGroup[0].classList.toggle("star--lit");
+        function resetCurrentTrailerInfo() {
+            currentID = 0;
+            currentRating = 0;
         }
 
-        starGroup[1].classList.remove("star--lit");
-        starGroup[2].classList.remove("star--lit");
+        function unlightAllStars() {
+            const starGroup = document.querySelectorAll(".star");
+            /**
+             * I don't use foreach here as reports of browser support for it
+             * on node lists is inconsistent so I do it this way just to be safe
+             */
+            for (let i = 0; i < starGroup.length; i++) {
+                starGroup[i].classList.remove("star--lit");
+            }
+        }
 
+        function clearNotes() {
+            document.querySelector(".notes").value = "";
+        }
+    }
+}
 
-        if (starGroup[0].classList.contains("star--lit")) {
+// called when any of the star elements on the rating dialog are clicked
+function handleStarClick(eventTarget) {
+
+    const starElements = document.querySelectorAll(".star");
+
+    /** 
+     * Star elements on the page are given ids star-rating-1, 2 and 3.
+     * This code works out how to react to each one being clicked based
+     * on which stars were already 'on', updating currentRating to reflect the change
+     */
+    if (eventTarget.id === "star-rating-1") {
+        handleClickOnFirstStar();
+    } else if (eventTarget.id === "star-rating-2") {
+        handleClickOnSecondStar();
+    } else {
+        handleClickOnThirdStar();
+    }
+    
+    function handleClickOnFirstStar() {
+
+        if (!starElements[1].classList.contains("star--lit")) {
+            starElements[0].classList.toggle("star--lit");
+        }
+
+        starElements[1].classList.remove("star--lit");
+        starElements[2].classList.remove("star--lit");
+
+        if (starElements[0].classList.contains("star--lit")) {
             currentRating = 1;
         } else {
             currentRating = 0;
         }
+    }
 
-    } else if (eventTarget.id === "star-rating-2") {
+    function handleClickOnSecondStar() {
 
-        // the second star was clicked
+        starElements[0].classList.add("star--lit");
 
-        starGroup[0].classList.add("star--lit");
-
-        if (!starGroup[2].classList.contains("star--lit")) {
-            starGroup[1].classList.toggle("star--lit");
+        if (!starElements[2].classList.contains("star--lit")) {
+            starElements[1].classList.toggle("star--lit");
         }
 
-        starGroup[2].classList.remove("star--lit");
+        starElements[2].classList.remove("star--lit");
 
-        if (starGroup[1].classList.contains("star--lit")) {
+        if (starElements[1].classList.contains("star--lit")) {
             currentRating = 2;
         } else {
             currentRating = 1;
         }
+    } 
+      
+    function handleClickOnThirdStar() {
 
-    } else {
+        starElements[0].classList.add("star--lit");
+        starElements[1].classList.add("star--lit");
+        starElements[2].classList.toggle("star--lit");
 
-        // the third star was clicked
-
-        starGroup[0].classList.add("star--lit");
-        starGroup[1].classList.add("star--lit");
-        starGroup[2].classList.toggle("star--lit");
-
-        if (starGroup[2].classList.contains("star--lit")) {
+        if (starElements[2].classList.contains("star--lit")) {
             currentRating = 3;
         } else {
             currentRating = 2;
         }
-
     }
+
+
+
+
 }
 
-// called when the user clicks the confirm button on the trailers to watch rate trailer dialog
+// called when the confirm button on the trailers to watch rate trailer dialog is clicked
 async function handleConfirmClick() {
     
     if (currentRating === 0) {
-
-        // if the rating is 0 then we aren't interested in the fim at all
-        fetch(`trailers-to-watch/${currentID}`, { method: "DELETE"});
-
+        // if the rating is 0 then we aren't interested in the fim at all so delete it
+        deleteTrailerFromDatabase();
     } else {
-
-        const fetchRequestBodyData = { rating: currentRating, notes: document.querySelector(".notes").value };
-        
-        fetch(`trailers-to-watch/${currentID}/`, 
-            { 
-                method: "PATCH", 
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(fetchRequestBodyData) 
-            }
-        );          
+        setTrailerRatingAndNotes();          
     }
 
-    /**
-     * Get the DOM element for the trailer div containing the trailer we're looking at and then 
-     * delete it from the page as we've shortlisted it by rating it 
-     */
-    const trailerElementToDelete = document.querySelector(`#id_${currentID}`);
-    trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
-    
-    hideRatingDialog();
+    deleteTrailerElementFromPage();
+    hideAndResetDialog();
+
+    function deleteTrailerElementFromPage() {
+        const trailerElementToDelete = document.querySelector(`#id_${currentID}`);
+        trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
+    }
+
+    function deleteTrailerFromDatabase() {
+        fetch(`trailers-to-watch/${currentID}`, { method: "DELETE" });
+    }
+
+    function setTrailerRatingAndNotes() {
+        const fetchRequestBodyData = { rating: currentRating, notes: document.querySelector(".notes").value };
+        fetch(`trailers-to-watch/${currentID}/`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(fetchRequestBodyData)
+        });
+    }
 }
