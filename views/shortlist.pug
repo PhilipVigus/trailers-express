@@ -3,7 +3,7 @@ extends layout
 block content
     div.shortlist-container
         each trailer in trailers_found
-            div.shortlisted-film-container
+            div.shortlisted-film-container(id=`id_${trailer.id}`)
                 div.main-information-container(onclick="toggleOtherInfoVisibility(this)")
                     div.shortlisted-film-title
                         h2= trailer.titleUnencoded
@@ -25,5 +25,7 @@ block content
                     div.shortlisted-trailer-other-text
                         div.trailer-tags= trailer.tags
                         div.trailer-notes= trailer.notes
+                        button(onClick=`undoTrailerRating('${trailer.id}')`) Undo rating
+                        button Watched
 
 
