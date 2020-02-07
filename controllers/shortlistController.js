@@ -2,7 +2,8 @@
 
 const Trailer = require("../models/trailer");
 
-exports.shortlist = function (req, res) {
+exports.showShortListPage = function (req, res) {
+    // finds trailers where the rating != null
     Trailer.find({ rating: { $ne: null } }).exec(function (err, trailersFound) {
         if (err) {
             return next(err);
@@ -12,17 +13,24 @@ exports.shortlist = function (req, res) {
     });
 };
 
-exports.updateTrailer = async function (req, res) {
+exports.updateTrailerData = async function (req, res) {
     Trailer.findById(req.params.id).exec(function (err, trailerFound) {
         if (err) {
             return next(err);
         } else {
+            /**
+             * if rating is undefined it means we are unrating the trailer,
+             * removing it's rating and any notes. This has the effect of
+             * removing the trailer from the shortlist and readding it to the
+             * 'trailers to watch' list
+             */
             if (req.body.rating === undefined ) {
-                console.log(`${trailerFound.title} is having its rating removed...`);
                 trailerFound.rating = undefined;
                 trailerFound.notes = req.body.notes;
                 trailerFound.save();
             }
+
+            console.log(`Trailer with id = ${req.params.id} has been unrated`);
         }
     });
 };
@@ -32,7 +40,7 @@ exports.deleteTrailerAsFilmWatched = async function (req, res) {
         if (err) {
             return next(err);
         } else {
-            console.log(`${req.params.id} is being deleted as the film has been watched...`);
+            console.log(`Trailer with id = ${req.params.id} has been deleted from the database`);
         }
     });
 };
