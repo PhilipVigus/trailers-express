@@ -10,6 +10,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
+const feedUpdater = require('./data/feedUpdater');
+
 const indexRouter = require("./routes/index");
 const trailersToWatchRouter = require("./routes/trailersToWatch");
 const shortlistRouter = require("./routes/shortlist");
@@ -35,6 +37,7 @@ dbConnection.on("error", console.error.bind(console, 'MongoDB connection error:'
 
 setupViewEngine();
 setupMiddleware();
+feedUpdater.getTrailersFromRSSFeed();
 
 function setupViewEngine() {
   app.set('views', path.join(__dirname, 'views'));
