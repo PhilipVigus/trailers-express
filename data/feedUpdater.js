@@ -1,27 +1,24 @@
 'use strict';
 const Trailer = require('../models/trailer');
+const DownloadedTrailer = require('../models/downloadedTrailer');
 const RSSParser = require('rss-parser');
 
 exports.getTrailersFromRSSFeed = async function () {
 
-    console.log("Getting trailers from RSS feed...");
+    let feedJsonData = await getFeedJsonData();
+    console.log(`${feedJsonData.items.length} trailers retrieved from feed`);
 
-    // get the latest trailers from the RSS feed
-    let feedJSONData = await getFeedJSONData();
-    console.log(`${feedJSONData.items.length} trailers retrieved from feed`);
+    let parsedTrailers = parseTrailersFromJsonData(feedJsonData.items);
 
-    // parse the trailer json into trailer objects
-    let parsedTrailers = parseTrailers(feedJSONData.items);
-
-    // filter out anything that isn't a trailer or is a genre we're not interested in (documentaries, shorts, tv spots etc)
-    let filteredTrailers = filterTrailers(parsedTrailers);
+    let filteredTrailers = await filterTrailers(parsedTrailers);
     console.log(`${filteredTrailers.length} trailers left after filtering`);
 
-    saveTrailersToDatabase(filteredTrailers);
+    if (filteredTrailers.length > 0) {
+        saveTrailersToDatabase(filteredTrailers);
+        updateListOfDownloadedTrailerGuids(filteredTrailers);
+    }
 
-    // returns an object that contains the entire feed. The trailers are the .items
-    // property of this object
-    async function getFeedJSONData() {
+    async function getFeedJsonData() {
         const FEED_URL = "https://www.traileraddict.com/rss";
         const parser = new RSSParser();
 
@@ -29,13 +26,9 @@ exports.getTrailersFromRSSFeed = async function () {
         return trailers;
     }
 
-    // parses out the information from the feed that we're interested in and
-    // populates film objects with it
-    function parseTrailers(trailers) {
+    function parseTrailersFromJsonData(trailers) {
 
         let parsedTrailers = [];
-
-        console.log("Parsing trailers...");
 
         trailers.forEach(function(entry) {
             let trailer = {};
@@ -62,22 +55,63 @@ exports.getTrailersFromRSSFeed = async function () {
         return parsedTrailers;
     }
 
-    function filterTrailers(trailers) {
-        /**
-         * Filters first by the trailer title, removing TV spots, auditions, teasers etc, and then by the tags,
-         * removing any genres we're not interested in
-         */
-        return trailers.filter(trailer => trailer.title.match(/^(?!.*(Featurette|TV Spot|Auditions|Teaser)).*$/i))
-                    .filter(trailer => trailer.tags.match(/^(?!.*(Documentary|Short)).*$/i));
+    async function filterTrailers(trailers) {
+
+        let filteredTrailers = removeUninterestingTrailers(trailers);
+        filteredTrailers = await removeDuplicateDownloads(filteredTrailers);
+
+        return filteredTrailers;
+
+        function removeUninterestingTrailers(trailers) {
+            return trailers.filter(trailer => trailer.title.match(/^(?!.*(Featurette|TV Spot|Auditions|Teaser)).*$/i))
+            .filter(trailer => trailer.tags.match(/^(?!.*(Documentary|Short)).*$/i));
+        }
+
+        async function removeDuplicateDownloads(trailers) {
+            let nonDuplicates = [];
+
+            /** You can't use forEach here as it causes a syntax error with the enclosed await. The reason for this
+             * is because forEach will not pause while the promise from DownloadTrailer.exists fulfils. A standard
+             * for loop on the other hand, will so we use that instead.
+             */
+            for (let i = 0; i < trailers.length; i++) {
+                let hasAlreadyBeenDownloaded = await DownloadedTrailer.exists({ guid: trailers[i].guid });
+
+                if (!hasAlreadyBeenDownloaded) {
+                    nonDuplicates.push(trailers[i]);
+                }
+            }
+
+            return nonDuplicates;
+        }
     }
 
     function saveTrailersToDatabase(trailers) {
-        console.log("Saving trailers to database");
 
         trailers.forEach ((trailerDetails) => {
             let trailerDocument = new Trailer(trailerDetails);
 
             trailerDocument.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+
+            let downloadedTrailerDocument = new DownloadedTrailer({ guid: trailerDetails.guid });
+
+            downloadedTrailerDocument.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        });
+    }
+
+    function updateListOfDownloadedTrailerGuids(trailers) {
+        trailers.forEach ((trailerDetails) => {
+            let downloadedTrailerDocument = new DownloadedTrailer({ guid: trailerDetails.guid });
+
+            downloadedTrailerDocument.save(function (err) {
                 if (err) {
                     console.log(err);
                 }

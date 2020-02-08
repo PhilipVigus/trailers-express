@@ -8,3 +8,5 @@ const DownloadedTrailerSchema = new Schema(
         guid: { type: String, required: true }
     }
 );
+
+module.exports = mongoose.model("DownloadedTrailer", DownloadedTrailerSchema);
