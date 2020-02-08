@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 
 const DownloadedTrailerSchema = new Schema(
     {
-        guid: { type: String, required: true }
+        guid: { type: String, required: true },
+        downloadDate: { type: Date, required: true, default: Date.now() }
     }
 );
 

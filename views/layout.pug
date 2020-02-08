@@ -21,13 +21,12 @@ html(lang="en")
             span.dialog-button(onclick="handleConfirmClick()") Confirm
             span.dialog-button(onclick="hideAndResetDialog()") Cancel
     header.main-header
-      h1.main-title= title
-      nav.page-nav
-        a(href="/trailers-to-watch")
+      h1.main-header__title= title
+      nav.main-header__page-nav
+        a.main-header__link(href="/trailers-to-watch")
           span Trailers to Watch
-        a(href="/shortlist")
+        a.main-header__link(href="/shortlist")
           span Shortlist
-        span Admin
     block content
     script(src="/javascripts/trailersToWatch.js")
     script(src="/javascripts/shortlist.js")

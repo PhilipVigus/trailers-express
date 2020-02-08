@@ -1,7 +1,8 @@
 :root {
     /* global variables here */
     /* colours */
-    --background-main: burlywood;
+    --background-main: black;
+    --header-text-color: white;
     /* global font sizes? */
     /* paddings */
     /* margins */
