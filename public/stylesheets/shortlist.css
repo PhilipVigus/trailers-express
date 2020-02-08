@@ -1,46 +1,72 @@
-.shortlist-star {
-    padding: 0 5px;
+.shortlist-container {
+    margin: 0px 20px;
+    padding-top: 5px;
 }
 
-.rating--gold {
+.shortlisted-film {
+    background-color: var(--background-light-color);
+}
+
+.shortlisted-film__main-information {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.shortlisted-film__header {
+    display: flex;
+    flex: 0 0 40%;
+    background-color: var(--accent-color);
+    color: var(--header-text-color);
+    padding: 5px 5px;
+}
+
+.shortlisted-film__icon {
+    padding: 0px 5px;
+    font-size: 1.2em;
+    align-self: center;
+}
+
+.shortlisted-film__title {
+    flex: 1 1 auto;
+    padding-left: 10px;
+}
+
+.shortlisted-film__spacer {
+    flex: 0 1 100%;
+}
+
+.shortlisted-film__rating {
+    border-left: 1px solid black;
+    flex: 0 0 87.25px;
+    font-size: 11px;
+    text-align: right;
+    background-color: var(--accent-color);
+    align-self: stretch;
+}
+
+.shortlisted-film__star {
+    padding: 0 2px;
     color: gold;
 }
 
-.rating--silver {
-    color: silver;
-}
-
-.rating--bronze {
-    color: #CD7F32;
-}
-
-.shortlisted-film-container {
-    margin: 1px 0px;
-}
-
-.main-information-container {
-    display: flex;
-    background: var(--background-main);
-}
-
-.shortlisted-film-title {
-    flex: 1 0;
-}
-
-.shortlisted-trailer-rating {
-    font-size: 11px;
-    flex: 0 1 auto;
-}
-
-.other-information-container {
+.shortlisted-film__additional-information {
     display: none;
+    border-bottom: 1px solid black;
 }
 
-.shortlist-image {
-    width: 200px;
+.shortlisted-film__image {
+    width: 40%;
     display: block;
 }
 
-.show-other-information {
+.shortlisted-film__additional-text {
+    flex: 0 1 100%;
+    padding: 20px;
+}
+
+.js-show-other-information {
     display: flex;
 }
+
+

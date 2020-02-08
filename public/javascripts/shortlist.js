@@ -5,7 +5,7 @@
  * been shortlisted. Triggered by clicking on a film in the shortlist
  */
 function toggleOtherInfoVisibility(target) {
-    target.nextSibling.classList.toggle("show-other-information");
+    target.nextSibling.classList.toggle("js-show-other-information");
 }
 
 function deleteTrailerRatingAndNotes(trailerID) {

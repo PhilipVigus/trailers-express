@@ -3,29 +3,31 @@ extends layout
 block content
     div.shortlist-container
         each trailer in trailers_found
-            div.shortlisted-film-container(id=`id_${trailer.id}`)
-                div.main-information-container(onclick="toggleOtherInfoVisibility(this)")
-                    div.shortlisted-film-title
-                        h2= trailer.titleUnencoded
+            div.shortlisted-film(id=`id_${trailer.id}`)
+                div.shortlisted-film__main-information
+                    div.shortlisted-film__header
+                        i.shortlisted-film__icon.far.fa-plus-square(onclick="toggleOtherInfoVisibility(this.parentNode.parentNode)")
+                        span.shortlisted-film__title
+                            h2= trailer.titleUnencoded
+                        i.fas.fa-undo.shortlisted-film__icon(onClick=`deleteTrailerRatingAndNotes('${trailer.id}')`)
+                        i.far.fa-trash-alt.shortlisted-film__icon(onClick=`deleteTrailerAsFilmWatched('${trailer.id}')`)
+                    div.shortlisted-film__spacer
                     if (trailer.rating === 1)
-                        div.shortlisted-trailer-rating.rating--bronze
-                            i.fas.fa-star.fa-2x.shortlist-star
+                        div.shortlisted-film__rating
+                            i.fas.fa-star.fa-2x.shortlisted-film__star
                     else if (trailer.rating === 2)
-                        div.shortlisted-trailer-rating.rating--silver
-                            i.fas.fa-star.fa-2x.shortlist-star
-                            i.fas.fa-star.fa-2x.shortlist-star
+                        div.shortlisted-film__rating
+                            i.fas.fa-star.fa-2x.shortlisted-film__star
+                            i.fas.fa-star.fa-2x.shortlisted-film__star
                     else
-                        div.shortlisted-trailer-rating.rating--gold
-                            i.fas.fa-star.fa-2x.shortlist-star
-                            i.fas.fa-star.fa-2x.shortlist-star
-                            i.fas.fa-star.fa-2x.shortlist-star
-                div.other-information-container
-                    div.shortlisted-trailer-image
-                        img.shortlist-image(src=trailer.imageURL)
-                    div.shortlisted-trailer-other-text
-                        div.trailer-tags= trailer.tags
-                        div.trailer-notes= trailer.notes
-                        button(onClick=`deleteTrailerRatingAndNotes('${trailer.id}')`) Undo rating
-                        button(onClick=`deleteTrailerAsFilmWatched('${trailer.id}')`) Watched
+                        div.shortlisted-film__rating
+                            i.fas.fa-star.fa-2x.shortlisted-film__star
+                            i.fas.fa-star.fa-2x.shortlisted-film__star
+                            i.fas.fa-star.fa-2x.shortlisted-film__star
+                div.shortlisted-film__additional-information
+                    img.shortlisted-film__image(src=trailer.imageURL)
+                    div.shortlisted-film__additional-text
+                        div.trailer-tags= `Tags:- ${trailer.tags}`
+                        div.trailer-notes= `Notes:- ${trailer.notes}`
 
 
