@@ -16,3 +16,11 @@ a {
     text-decoration: none;
     color: var(--header-text-color);
 }
+
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+}

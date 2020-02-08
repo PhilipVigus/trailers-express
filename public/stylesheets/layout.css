@@ -2,8 +2,18 @@ body {
     background-color: var(--background-main);
 }
 
+button {
+    background-color: var(--background-dark-highlight-color);
+    color: var(--header-text-color);
+    padding: 10px 50px;
+    width: auto;
+    font-size: 1.5em;
+}
+
 .main-header {
     color: var(--header-text-color);
+    background-color: var(--background-dark-highlight-color);
+    padding-bottom: 10px;
 }
 
 .main-header__title {

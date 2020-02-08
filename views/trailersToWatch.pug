@@ -3,12 +3,11 @@ extends layout
 block content
   div.trailers-to-watch-container
     each trailer in trailers_found
-      // id_ is prepended here because attribute values cannot start with a number
-      div.trailer-container(id=`id_${trailer.id}`)
-        a(href=trailer.trailerLink target="_blank")
-          img.trailer-image(src=trailer.imageURL)
-        div.trailer-text-container
-          div.trailer-title
+      div.trailer(id=`id_${trailer.id}`)
+        a.trailer__image(href=trailer.trailerLink target="_blank")
+          img.trailer__image(src=trailer.imageURL)
+        div.trailer__text
+          div.trailer__title
             h2= trailer.titleUnencoded
-          div.trailer-tags= trailer.tags
-          button.rate-button(onclick=`showRatingDialog("${trailer.titleUnencoded}", "${trailer.id}")`) Rate Film
+          div.trailer__tags= trailer.tags
+        button.trailer__rate-button(onclick=`showRatingDialog("${trailer.titleUnencoded}", "${trailer.id}")`) Rate

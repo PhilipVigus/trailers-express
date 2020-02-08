@@ -2,32 +2,37 @@
     font-size: 2em;
     text-align: center;
 }
-  
-.trailer-container {
+
+.trailers-to-watch-container {
+    margin: 0px 20px;
+}
+
+.trailer {
     display: flex;
     margin: 10px 0px;
-    background-color: burlywood;
+    background-color: var(--background-light-color);
+}
+
+.trailer__title {
+    padding-bottom: 5px;
 }
   
-.trailer-image {
+.trailer__image {
     width: 300px;
     display: block;
 }
   
-.trailer-text-container {
+.trailer__text {
     width: 100%;
     padding: 10px;
     display: flex;
     flex-direction: column;
 }
   
-.trailer-tags {
+.trailer__tags {
     flex: 1 0;
 }
   
-.rate-button {
-    background-color: grey;
-    align-self: center;
-    padding: 10px 50px;
-    font-size: 1.5em;
+.trailer__rate-button {
+    background-color: var(--accent-color);    
 }
