@@ -4,7 +4,7 @@ const Trailer = require("../models/trailer");
 
 exports.showShortListPage = function (req, res) {
     // finds trailers where the rating != null
-    Trailer.find({ rating: { $ne: null } }).sort({ articleDate: 'asc'}).exec(function (err, trailersFound) {
+    Trailer.find({ rating: { $ne: null } }).sort({ rating: 'desc'}).exec(function (err, trailersFound) {
         if (err) {
             return next(err);
         } else {
