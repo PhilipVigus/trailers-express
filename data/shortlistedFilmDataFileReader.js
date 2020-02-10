@@ -1,12 +1,13 @@
 'use strict';
+require('dotenv').config();
 
 const mongoose = require("mongoose");
 const fileSystem = require("fs");
 const async = require("async");
 const TrailerModel = require("../models/trailer");
-const mongoDBConnectionString = "mongodb+srv://PortfolioAdmin:kj43Pipkj43@portfolio-databases-ndtpo.mongodb.net/trailers?retryWrites=true&w=majority";
+const dbPath = process.env.USER == "phil" ? process.env.DB_PATH_PERSONAL : process.env.DB_PATH_PORTFOLIO
 
-mongoose.connect(mongoDBConnectionString, { useNewUrlParser: true });
+mongoose.connect(dbPath, { useNewUrlParser: true });
 const dbConnection = mongoose.connection;
 
 // bind to the error event, so that errors get printed to console
@@ -24,8 +25,9 @@ async.series(
 );
 
 function processFile() {
-    const dataAsString = readFileAsString("shortlist-test-data.csv");
+    const dataAsString = readFileAsString("./data/Shortlist 20200210.csv");
     const parsedFilms = parseDataToFilmObjects(dataAsString);
+    console.log(parsedFilms);
     saveFilmsToDatabase(parsedFilms);
 }
 
@@ -74,8 +76,8 @@ function parseLinesIntoFilmObjects(lines) {
 function getFilmFieldsFromLine(line) {
     let FilmFields = {
         title: getTitleFromLine(line),
-        guid: "-",
-        imageURL: "-",
+        guid: getTitleFromLine(line),
+        imageURL: "http://cdn.traileraddict.com/images/errors/noposter.jpg",
         articleDate: Date.now(),
         trailerLink: "-",
         tags: "-",
@@ -101,5 +103,15 @@ function getNotesFromLine(line) {
 }
 
 function getRatingFromLine(line) {
-    return line.split(";")[3];
+    const oldRating = parseInt(line.split(";")[3]);
+
+    if (oldRating == 1) {
+        return "3";
+    } else if (oldRating == 2) {
+        return "2";
+    } else if (oldRating == 3) {
+        return "1";
+    } else {
+        throw error("This is a humungous error");
+    }
 }
