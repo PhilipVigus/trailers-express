@@ -1,67 +1,87 @@
 'use strict';
+/**
+ * This script imports trailers from the Thunderbird email feed we were using before this program was written.
+ * Once used, as long as the site remains up to date it shouldn't be required again.
+ */
+
+require('dotenv').config();
 
 const mongoose = require("mongoose");
 const fileSystem = require("fs");
 const async = require("async");
+const ExternalDataInterface = require('./externalDataInterface');
 const TrailerModel = require("../models/trailer");
-const mongoDBConnectionString = "mongodb+srv://PortfolioAdmin:kj43Pipkj43@portfolio-databases-ndtpo.mongodb.net/trailers?retryWrites=true&w=majority";
+const dbPath = process.env.USER == "phil" ? process.env.DB_PATH_PERSONAL : process.env.DB_PATH_PORTFOLIO
+let dbConnection;
 
-mongoose.connect(mongoDBConnectionString, { useNewUrlParser: true });
-const dbConnection = mongoose.connection;
+addThunderbirdTrailersToDb();
 
-// bind to the error event, so that errors get printed to console
-dbConnection.on("error", console.error.bind(console, 'MongoDB connection error:'));
-
-// this makes sure that the processing is complete before we close the database connection
-async.series(
-    [processFile],
-    function(err, results) {
-        if (err) {
-            console.log("FINAL ERR: " + err);
-        }
-        mongoose.connection.close();
-    }
-);
-
-function processFile() {
-    const data = readFileAsString("test-data.txt");
-    const parsedData = parseData(data);
-}
-
-function readFileAsString(filename) {
-    return fileSystem.readFileSync(filename).toString();
-}
-
-function parseData(data) {
-    let films = [];
-
+async function addThunderbirdTrailersToDb() {
+    await connectToDb();
+    let trailers = await processThunderBirdDataFile();
+    await ExternalDataInterface.saveTrailersToDatabase(trailers);
     /**
-     * split the file into chunks going from the opening 'From' field to the closing html tag
-     * [\s\S]* matches zero or more whitespace and non-whitespace characters. We can't use . here as it
-     * doesn't match new line and other delimiters. ? makes the search lazy, matching the minimum number
-     * of characters to get the pattern
+     * There is a bug here I don't know how to fix. If I try to disconnect the database with the given code,
+     * it closes before the save operations have completed, causing an error. There's something wrong with
+     * the way I'm doing the async calls, but I can't work out what it is. For them moment, you have t
+     * manually disconnect by quitting out of the program after it's completed.
      */
-    let filmChunks = data.match(/From - [\s\S]*?<\/html>/g);
+    //await disconnectFromDb();
 
-    filmChunks.forEach(function(filmChunk) {
-
-        let trailerDetails = {
-            title: filmChunk.match(/<title>[\s\S]*?<\/title>/)[0].slice(7, -8),
-            guid: filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2),
-            imageURL: filmChunk.match(/<img[\s\S]*?>/)[0].slice(10, -4),
-            articleDate: filmChunk.match(/Received.*/)[0].slice(24, -6),
-            trailerLink: filmChunk.match(/<base[\s\S]*?>/)[0].slice(12, -2),
-            tags: filmChunk.match(/Tags[\s\S]*?<\/body>/)[0].replace(/<.*?>/g, "").slice(6, -3)
-        };
-
-        let trailer = new TrailerModel(trailerDetails);
-        trailer.save(function (err) {
-            if (err) {
-                console.log(err);
+    async function connectToDb() {
+        await mongoose.connect(dbPath, { poolSize: 10, useNewUrlParser: true });
+        dbConnection = mongoose.connection;
+    
+        // bind to the error event, so that errors get printed to console
+        dbConnection.on("error", console.error.bind(console, 'MongoDB connection error:'));
+    }
+    
+    async function processThunderBirdDataFile() {
+        const stringData = readFileAsString("./data/RSSData 20200210.txt");
+        const parsedTrailers = parseTrailersFromStringData(stringData);
+        const filteredTrailers =  await ExternalDataInterface.filterTrailers(parsedTrailers);
+        
+        return filteredTrailers;
+    
+        function readFileAsString(filename) {
+            return fileSystem.readFileSync(filename).toString();
+        }
+        
+        function parseTrailersFromStringData(stringData) {
+            let trailers = [];
+    
+            const dataDividedIntoTrailers = divideDataIntoTrailers(stringData);
+    
+            dataDividedIntoTrailers.forEach((trailerData) => {
+                trailers.push(parseTrailerDetails(trailerData));
+            });
+    
+            return trailers;
+    
+            function divideDataIntoTrailers(data) {
+                return data.match(/From - [\s\S]*?<\/html>/g);
             }
-        });
-
-    })
-
-    console.log(films);
+    
+            function parseTrailerDetails(trailerData) {
+    
+                const trailerTagsWithLinks = trailerData.match(/Tags:\s(.*)?/)[1];
+    
+                return {
+                    title: trailerData.match(/<title>([\s\S]*?)<\/title>/)[1],
+                    guid: trailerData.match(/<base href="([\s\S]*?)">/)[1],
+                    imageURL: trailerData.match(/<img src="([\s\S]*?)" \/>/)[1],
+                    articleDate: trailerData.match(/Received: by localhost; (.*)/)[1],
+                    trailerLink: trailerData.match(/<base href="([\s\S]*?)">/)[1],
+                    tags: trailerTagsWithLinks ? trailerTagsWithLinks.replace(/<.*?>/g, "") : "-" // accounts for trailers with no tags specified
+                };
+            }
+        }
+    }
+    
+    async function disconnectFromDb() {
+        console.log("Closing database");
+        await dbConnection.close();
+        console.log("Database closed");
+    }
 }
+
