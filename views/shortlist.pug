@@ -25,9 +25,11 @@ block content
                             i.fas.fa-star.fa-2x.shortlisted-film__star
                             i.fas.fa-star.fa-2x.shortlisted-film__star
                 div.shortlisted-film__additional-information
-                    img.shortlisted-film__image(src=trailer.imageURL)
+                    div.shortlisted-film__image-container
+                        a(href=trailer.trailerLink target="_blank")
+                            img.shortlisted-film__image(src=trailer.imageURL)
                     div.shortlisted-film__additional-text
-                        div.trailer-tags= `Tags:- ${trailer.tags}`
-                        div.trailer-notes= `Notes:- ${trailer.notes}`
+                        div.shortlisted-film__tags= trailer.tags
+                        div.shortlisted-film__notes= trailer.notes
 
 

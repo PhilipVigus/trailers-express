@@ -15,7 +15,7 @@
 
 .shortlisted-film__header {
     display: flex;
-    flex: 0 0 40%;
+    flex: 0 0 600px;
     background-color: var(--accent-color);
     color: var(--header-text-color);
     padding: 5px 5px;
@@ -55,9 +55,13 @@
     border-bottom: 1px solid black;
 }
 
+.shortlisted-film__image-container {
+    flex: 0 0 auto;
+}
+
 .shortlisted-film__image {
-    width: 40%;
     display: block;
+    width: 610px;
 }
 
 .shortlisted-film__additional-text {
@@ -65,8 +69,14 @@
     padding: 20px;
 }
 
+.shortlisted-film__tags {
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
 .js-show-other-information {
     display: flex;
+    justify-content: stretch;
 }
 
 
