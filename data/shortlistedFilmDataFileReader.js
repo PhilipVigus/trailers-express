@@ -13,7 +13,6 @@ const dbConnection = mongoose.connection;
 // bind to the error event, so that errors get printed to console
 dbConnection.on("error", console.error.bind(console, 'MongoDB connection error:'));
 
-// this makes sure that the processing is complete before we close the database connection
 async.series(
     [processFile],
     function(err, results) {
@@ -70,8 +69,7 @@ function parseLinesIntoFilmObjects(lines) {
 /**
  * The reason most of the fields are blank is because we're importing incomplete
  * data that was recorded manually before this app was set up. Whenever data is
- * missing, it's replaced with either "-" for strings or in the case of the article
- * date, the current date and time 
+ * missing, it's filled in with an appropriate substitute
  */
 function getFilmFieldsFromLine(line) {
     let FilmFields = {
@@ -102,6 +100,10 @@ function getNotesFromLine(line) {
     return line.split(";")[6].replace("\r", "");
 }
 
+/**
+ * The original way we recorded preferences put 1 as the highest, but we reversed this for
+ * this app. This function carries out that conversion.
+ */
 function getRatingFromLine(line) {
     const oldRating = parseInt(line.split(";")[3]);
 
@@ -111,7 +113,5 @@ function getRatingFromLine(line) {
         return "2";
     } else if (oldRating == 3) {
         return "1";
-    } else {
-        throw error("This is a humungous error");
     }
 }
