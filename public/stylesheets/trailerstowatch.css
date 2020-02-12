@@ -32,7 +32,19 @@
 .trailer__tags {
     flex: 1 0;
 }
-  
+ 
+.trailer__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
 .trailer__rate-button {
-    background-color: var(--accent-color);    
+    background-color: var(--accent-color);
+    flex: 3 1;    
+}
+
+.trailer__delete-button {
+    background-color: #8c1d1d;
+    flex: 1 1;    
 }

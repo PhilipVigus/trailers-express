@@ -28,7 +28,7 @@ function hideAndResetDialog() {
     hideDialogElement();
     resetDialogData();
 
-    
+
     function hideDialogElement() {
         document.querySelector(".modal-overlay").classList.toggle("show-modal");
     }
@@ -78,7 +78,7 @@ function handleStarClick(eventTarget) {
     } else {
         handleClickOnThirdStar();
     }
-    
+
     function handleClickOnFirstStar() {
 
         if (!starElements[1].classList.contains("star--lit")) {
@@ -110,8 +110,8 @@ function handleStarClick(eventTarget) {
         } else {
             currentRating = 1;
         }
-    } 
-      
+    }
+
     function handleClickOnThirdStar() {
 
         starElements[0].classList.add("star--lit");
@@ -132,29 +132,19 @@ function handleStarClick(eventTarget) {
 
 // called when the confirm button on the trailers to watch rate trailer dialog is clicked
 async function handleConfirmClick() {
-    
     if (currentRating === 0) {
         // if the rating is 0 then we aren't interested in the fim at all so delete it
-        deleteTrailerFromDatabase();
+        deleteTrailerFromDatabase(currentID);
     } else {
-        setTrailerRatingAndNotes();          
+        setTrailerRatingAndNotes(currentID);
     }
 
-    deleteTrailerElementFromPage();
+    deleteTrailerToWatchElementFromPage(currentID);
     hideAndResetDialog();
 
-    function deleteTrailerElementFromPage() {
-        const trailerElementToDelete = document.querySelector(`#id_${currentID}`);
-        trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
-    }
-
-    function deleteTrailerFromDatabase() {
-        fetch(`trailers-to-watch/${currentID}`, { method: "DELETE" });
-    }
-
-    function setTrailerRatingAndNotes() {
+    function setTrailerRatingAndNotes(trailerId) {
         const fetchRequestBodyData = { rating: currentRating, notes: document.querySelector(".notes").value };
-        fetch(`trailers-to-watch/${currentID}/`, {
+        fetch(`trailers-to-watch/${trailerId}/`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -162,4 +152,19 @@ async function handleConfirmClick() {
             body: JSON.stringify(fetchRequestBodyData)
         });
     }
+}
+
+// called with a delete button is clicked for one of the trailers
+async function handleDeleteClick(trailerId) {
+    deleteTrailerFromDatabase(trailerId)
+    deleteTrailerToWatchElementFromPage(trailerId)
+}
+
+function deleteTrailerFromDatabase(trailerId) {
+    fetch(`trailers-to-watch/${trailerId}`, { method: "DELETE" });
+}
+
+function deleteTrailerToWatchElementFromPage(trailerId) {
+    const trailerElementToDelete = document.querySelector(`#id_${trailerId}`);
+    trailerElementToDelete.parentNode.removeChild(trailerElementToDelete);
 }

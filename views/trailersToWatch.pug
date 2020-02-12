@@ -10,4 +10,7 @@ block content
           div.trailer__title
             h2= trailer.titleUnencoded
           div.trailer__tags= trailer.tags
-        button.trailer__rate-button(onclick=`showRatingDialog("${trailer.titleUnencoded}", "${trailer.id}")`) Rate
+        div.trailer__buttons
+          button.trailer__rate-button(onclick=`showRatingDialog("${trailer.titleUnencoded}", "${trailer.id}")`) Rate
+          button.trailer__delete-button(onClick=`handleDeleteClick('${trailer.id}')`)
+            i.far.fa-trash-alt
