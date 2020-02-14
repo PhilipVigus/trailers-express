@@ -66,7 +66,7 @@ async function filterTrailers (trailers) {
 
     function removeUninterestingTrailers(trailers) {
         return trailers.filter(trailer => trailer.title.match(/^(?!.*(Featurette|TV Spot|Auditions|Teaser)).*$/i))
-        .filter(trailer => trailer.tags.match(/^(?!.*(Documentary|Short)).*$/i));
+                            .filter(trailer => trailer.tags.match(/^(?!.*(Documentary|Short|Teaser)).*$/i));
     }
 
     async function removeDuplicateDownloads(trailers) {
